@@ -1,0 +1,9 @@
+{
+  "properties": [
+    {
+      "name": "sql.basePackage",
+      "type": "java.lang.String",
+      "description": "扫描实体类所在的包，用于生成对应的 sql."
+    }
+  ]
+}
