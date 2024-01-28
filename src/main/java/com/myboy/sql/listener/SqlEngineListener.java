@@ -35,6 +35,7 @@ public class SqlEngineListener implements ApplicationListener<ApplicationStarted
         this.sqlProperties = sqlProperties;
     }
 
+    @SuppressWarnings("NullableProblems")
     @Override
     public void onApplicationEvent(ApplicationStartedEvent event) {
         log.info("开始执行 sql 引擎");

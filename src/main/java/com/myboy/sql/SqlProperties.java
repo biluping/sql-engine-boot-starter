@@ -1,7 +1,9 @@
 package com.myboy.sql;
 
+import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
+@Data
 @ConfigurationProperties(prefix = "sql")
 public class SqlProperties {
 
@@ -10,11 +12,4 @@ public class SqlProperties {
      */
     private String basePackage;
 
-    public String getBasePackage() {
-        return basePackage;
-    }
-
-    public void setBasePackage(String basePackage) {
-        this.basePackage = basePackage;
-    }
 }

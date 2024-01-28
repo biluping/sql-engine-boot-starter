@@ -5,8 +5,6 @@ import com.myboy.sql.annotation.Index;
 import com.myboy.sql.constant.IndexEnum;
 import com.myboy.sql.constant.MySqlTypeEnum;
 import com.myboy.sql.pojo.ColumnInfo;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Field;
 import java.math.BigDecimal;
@@ -19,8 +17,6 @@ import java.time.LocalTime;
 import java.util.*;
 
 public class ColUtil {
-
-    private static final Logger log = LoggerFactory.getLogger(ColUtil.class);
 
     @Column
     private static final Map<Class<?>, MySqlTypeEnum> jdbcTypeMap = new HashMap<>();
@@ -190,7 +186,7 @@ public class ColUtil {
         for (String f : index.fields()) {
             sb.append(f).append(",");
         }
-        if (sb.length() > 0){
+        if (!sb.isEmpty()){
             sb.delete(sb.length()-1, sb.length());
         }
 
