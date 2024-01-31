@@ -6,7 +6,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.io.support.ResourcePatternResolver;
+import org.springframework.util.ClassUtils;
 
+import java.net.URL;
+import java.net.URLClassLoader;
+import java.util.Enumeration;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.function.Predicate;
@@ -31,23 +35,18 @@ public class ClassUtil {
         try {
             PathMatchingResourcePatternResolver patternResolver = new PathMatchingResourcePatternResolver();
             Resource[] resources = patternResolver.getResources(ResourcePatternResolver.CLASSPATH_ALL_URL_PREFIX + basePackage);
+            String classBasePackage = basePackage.substring(0, basePackage.indexOf("*"));
             for (Resource resource : resources) {
                 if (resource.getFilename() == null || !resource.getFilename().endsWith(".class")) {
                     continue;
                 }
                 String protocol = resource.getURL().getProtocol();
                 String classPath = resource.getURL().getPath();
-                if ("file".equals(protocol)){
-                    classPath = classPath.substring(classPath.indexOf("classes/")+8);
-                } else {
-                    classPath = classPath.substring(classPath.indexOf("!/")+2);
-                }
+                
+                classPath = classPath.substring(classPath.indexOf(classBasePackage));
 
-                // 不处理内部类
-                if (classPath.contains("$")){
-                    continue;
-                }
-
+                // todo 内部类、jar 验证
+                
                 Class<?> clazz = Class.forName(classPath.replace('/','.').replace(".class", ""));
                 if (classFilter.test(clazz)){
                     classSet.add(clazz);
