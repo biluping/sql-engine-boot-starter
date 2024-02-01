@@ -6,11 +6,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.io.support.ResourcePatternResolver;
-import org.springframework.util.ClassUtils;
 
-import java.net.URL;
-import java.net.URLClassLoader;
-import java.util.Enumeration;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.function.Predicate;
@@ -26,7 +22,7 @@ public class ClassUtil {
     /**
      * 扫描类
      *
-     * @param basePackage 包名，如 com.spring.annotations
+     * @param basePackage 包名，如 com.spring.annotations.*
      * @param classFilter 类过滤器，只留下符合条件的类
      */
     public static Set<Class<?>> scanClass(String basePackage, Predicate<Class<?>> classFilter) {
@@ -40,13 +36,11 @@ public class ClassUtil {
                 if (resource.getFilename() == null || !resource.getFilename().endsWith(".class")) {
                     continue;
                 }
-                String protocol = resource.getURL().getProtocol();
+                // 拿到class的绝对路径
                 String classPath = resource.getURL().getPath();
-                
+                // 截取最后一段的 classPath 类路径，经过测试，这里 maven 和 gradle 项目都可以适配，在 jar 内的路径也能适配
                 classPath = classPath.substring(classPath.indexOf(classBasePackage));
 
-                // todo 内部类、jar 验证
-                
                 Class<?> clazz = Class.forName(classPath.replace('/','.').replace(".class", ""));
                 if (classFilter.test(clazz)){
                     classSet.add(clazz);

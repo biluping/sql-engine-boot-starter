@@ -6,7 +6,7 @@ plugins {
 }
 
 group = "com.myboy"
-version = "1.0.0"
+version = "1.0.1"
 
 java {
     sourceCompatibility = JavaVersion.VERSION_17
@@ -16,6 +16,11 @@ configurations {
     compileOnly {
         extendsFrom(configurations.annotationProcessor.get())
     }
+}
+
+tasks.jar {
+    // Remove `plain` postfix from jar file name so maven project can import successfully
+    archiveClassifier.set("")
 }
 
 repositories {
@@ -37,7 +42,6 @@ tasks.withType<Test> {
 }
 
 java {
-//    withJavadocJar()
     withSourcesJar()
 }
 
