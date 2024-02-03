@@ -21,7 +21,7 @@ SqlEngine 是作者在业余时间开发的小工具，仅在本人做的一些�
 
 
 ## 🍬适用环境
-* **SpringBoot 3**
+* **SpringBoot 2 or 3**
 * **MySQL 5.7**
 * **JDK 17**
 
